@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.ReplyMapper">
+	<select id="list" resultType="ReplyVO">
+		select * from tbl_reply where bno=#{bno} order by rno desc	
+	</select>   
+	
+	<insert id="create">
+		insert into tbl_reply(rno, bno, replytext, replyer, repRoot) values (#{rno}, #{bno}, #{replyText}, #{replyer}, #{rno})	
+	</insert>
+	
+	<update id="addRepStep">
+		update tbl_reply set repStep=repStep+1 where repRoot=#{repRoot} and repStep>#{repStep}
+	</update>
+	
+	<insert id="reply">
+		insert into tbl_reply(rno, bno, replytext, replyer, repRoot, repStep, repIndent) values (#{rno}, #{bno}, #{replyText}, #{replyer}, #{repRoot}, #{repStep}+1, #{repIndent}+1)
+	</insert>
+	
+	
+	<select id="getRno" resultType="Integer">
+		select max(rno) from tbl_reply	
+	</select>	
+	
+	<select id="read" resultType="ReplyVO">
+     	select * from tbl_reply where rno = #{rno}
+  	</select>  
+  
+	
+	<update id="update">
+		update tbl_reply set replytext=#{replyText}, updatedate=sysdate where rno=#{rno}	
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_reply where rno=#{rno}
+	
+	</delete>
+	
+	<select id="listPage" resultType="ReplyVO">
+			<![CDATA[
+  	select * from (
+	  	select rownum rnum, rno, bno, 
+	  	replyText, replyer, regdate, updatedate from (
+	  		select * from tbl_reply where bno=#{bno} order 
+	  		by rno desc)
+	  	)
+	where 
+	rnum between #{startRow} and #{endRow}
+	]]>  		
+	</select>
+	
+	<select id="count" resultType="Integer">
+		select count(*) from tbl_reply where bno=#{bno}
+	</select>
+	
+	
+	<select id="getBno" resultType="Integer">
+		select bno from tbl_reply where rno=#{rno}
+	</select>
+	
+	<delete id="deleteByBno">
+		delete from tbl_reply where bno=#{bno}	
+	</delete>
+  
+    
+</mapper>

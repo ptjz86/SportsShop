@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.UserManageMapper">    
+
+  <select id="usercheck" resultType="UserVO">
+  	select * from tbl_user
+  </select>
+  
+  <delete id="delete">
+  	delete from tbl_user where id = #{id}
+  </delete>
+  
+  <select id="mAnalysis" resultType="UserVO">
+  	select * from (select count(*) as mCount from tbl_user where gender ='man'), (select count(*) as wCount from tbl_user where gender ='woman')
+  </select>
+  
+  <!-- <select id="mAnalysis" resultType="UserVO">
+  	select count(*) as mCount from tbl_user where gender='man'
+  </select> -->
+  
+</mapper>
