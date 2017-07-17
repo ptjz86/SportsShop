@@ -1,9 +1,6 @@
 package kr.co.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.domain.OrderInfoVO;
 import kr.co.domain.OwnerPageVO;
 import kr.co.domain.OwnerVO;
-import kr.co.domain.UserVO;
 import kr.co.service.OwnerService;
 import kr.co.service.ProductService;
 
@@ -29,6 +24,14 @@ public class OwnerController {
 	
 	@Inject
 	ProductService p_service;
+	
+	
+	@RequestMapping(value="/map", method=RequestMethod.GET)
+	public void map() throws Exception{
+		
+		
+		
+	}
 	
 	@RequestMapping(value="/accounting", method=RequestMethod.GET)
 	public void accountingPage(Model model) throws Exception{

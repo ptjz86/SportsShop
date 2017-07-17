@@ -11,7 +11,10 @@
     
     /* Remove the jumbotron's default bottom margin */ 
      .jumbotron {
-      margin-bottom: 0;
+     margin-top: auto;
+     padding-top : inherit;
+     margin-bottom: auto;
+     padding-bottom: inherit;      
     }
    
     /* Add a gray background color and some padding to the footer */
@@ -20,11 +23,20 @@
       padding: 25px;
     }
   </style>
-  
- <div class="jumbotron" style="background-image: url('../resources/img/yoshi.jpg'); background-size: inherit;">
-  <div class="container text-center">
+ 
+ 
+ <div class="jumbotron" style="background-color: white;">
+  <div class=" container text-center">
+  	<div
+  	style="background: url('../resources/img/main_image4.png') no-repeat;        
+     background-size: cover;     
+     background-position: center;
+  	    
+     height: auto; overflow: hidden; 
+     ">
     <h1>Exerciser</h1>      
     <p>Health, Enjoy&Enterprise</p>
+    </div>
   </div>
 </div>
 
@@ -232,9 +244,11 @@
 				<c:otherwise>
 				<li><span
 					style="color: gray; list-style: none; display: inline; position: relative; top: 15px;"
-					class="glyphicon glyphicon-user"><c:if test="${login.position == 'admin' }">관리자</c:if>
-					<c:if test="${login.position == 'ceo' }">경영자</c:if>
-					 ${login.id}님 환영합니다.</span></li>
+					class="glyphicon glyphicon-user">
+					<c:if test="${login.position == 'user' }">${login.id}님 환영합니다.</span></li></c:if>
+					<c:if test="${login.position == 'admin' }">관리자 ${login.id}님 환영합니다.</span></li></c:if>
+					<c:if test="${login.position == 'ceo' }">경영자 ${login.id}님 환영합니다.</span></li></c:if>
+					 
 				<li><a href="/user/logout"><span
 						class="glyphicon glyphicon-user"></span> 로그아웃</a></li>
 				

@@ -32,38 +32,40 @@
 	</select>
 	
 	<select id="getGender" resultType="OwnerVO">
-	select count(*) count, 'man' as sex from (select * from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) where gender='man'
+	select count(*) count, 'man' as sex from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) where gender='man'
 	union all
-	select count(*) count, 'woman' as sex from (select * from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) where gender='woman'	
+	select count(*) count, 'man' as sex from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) where gender='woman'
+	
 	</select>
 	
 	<select id="getState" resultType="OwnerVO">
 	
-	SELECT state, count(*) as count FROM (select * from tbl_order_info, tbl_user where tbl_user.id = tbl_order_info.id) GROUP BY state
+	SELECT state, count(*) as count FROM (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.state from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) GROUP BY state
 	
 	</select>
+	
 	
  <!--   -->
  
  
- 
+ <!-- 7월 9일 변경, 구매 일시 중복 제거 -->
  <select id="getAge" resultType="OwnerVO">
   <![CDATA[
-select count(*) count , '10대이하' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 1 and (curyear-birthday) +1 < 10)
+select count(*) count , '10대이하' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 1 and (curyear-birthday) +1 < 10)
 union all
-select count(*) count, '10대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 11 and (curyear-birthday) +1 < 20)
+select count(*) count, '10대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 11 and (curyear-birthday) +1 < 20)
 union all
-select count(*) count, '20대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 21 and (curyear-birthday) +1 < 30)
+select count(*) count, '20대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 21 and (curyear-birthday) +1 < 30)
 union all
-select count(*) count, '30대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 31 and (curyear-birthday) +1 < 40)
+select count(*) count, '30대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 31 and (curyear-birthday) +1 < 40)
 union all
-select count(*) count, '40대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 41 and (curyear-birthday) +1 < 50)
+select count(*) count, '40대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 41 and (curyear-birthday) +1 < 50)
 union all
-select count(*) count, '50대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 51 and (curyear-birthday) +1 < 60)
+select count(*) count, '50대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 51 and (curyear-birthday) +1 < 60)
 union all
-select count(*) count, '60대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 61 and (curyear-birthday) +1 < 70)
+select count(*) count, '60대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 61 and (curyear-birthday) +1 < 70)
 union all
-select count(*) count, '70대이상' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 71) 
+select count(*) count, '70대이상' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from (select distinct tbl_order_info.o_date, tbl_user.id, tbl_user.gender, tbl_user.birthday from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id)) where (curyear-birthday) +1 >= 71) 
   ]]>
   
   </select>  
